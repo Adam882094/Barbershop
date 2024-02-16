@@ -8,7 +8,8 @@ namespace Barbershop.Models
         public int BarberId { get; set; }
         public string BarberName { get; set; }
 
-        // parent ref
-        public Appointment Appointment { get; set; }
+        // child ref
+        public List<Appointment> Appointments { get; set; }
+       // public Appointment Appointment { get; set; }
     }
 }

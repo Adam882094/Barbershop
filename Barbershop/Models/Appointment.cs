@@ -5,9 +5,14 @@
         public int AppointmentId { get; set; }
         public DateTime AppointmentDateTime { get; set; }
 
+        //If doing a dropdown menu of set times this is uncessary
+        //public DateTime AppointmentEndTime { get; set; }
+
         public int BarberId { get; set; }
 
-        // child ref
-        public List<Barber> Barber { get; set; }
+        public string CustomerId { get; set; }
+
+        //Parent Ref
+        public Barber Barber { get; set; }
     }
 }
