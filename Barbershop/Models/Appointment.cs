@@ -10,9 +10,9 @@
 
         public int BarberId { get; set; }
 
-        public string CustomerId { get; set; }
+        public string? CustomerId { get; set; }
 
         //Parent Ref
-        public Barber Barber { get; set; }
+        public Barber? Barber { get; set; }
     }
 }
