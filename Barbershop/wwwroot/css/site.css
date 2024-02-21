@@ -9,10 +9,30 @@ html {
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+}
+
+.navbar {
+    background-color: #455A64 !important; /* Dark gray background */
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #FFFFFF !important; /* White text color */
+}
+
+.table-striped tbody tr:nth-of-type(2n+1) {
+    background-color: #CFD8DC
+}
+
+a {
+    color: #1976D2;
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: #FFFFFF;
+    margin-bottom: 60px;
+    font-family: "Nunito Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
