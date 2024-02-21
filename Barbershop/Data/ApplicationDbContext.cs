@@ -8,6 +8,8 @@ namespace Barbershop.Data
     {
         public DbSet<Barber> Barbers { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+
+        public DbSet<Appointment> Haircuts { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

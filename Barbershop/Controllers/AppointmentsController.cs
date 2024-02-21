@@ -22,7 +22,7 @@ namespace Barbershop.Controllers
         // GET: Appointments
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Appointments.Include(a => a.Barber);
+            var applicationDbContext = _context.Appointments.Include(a => a.Barber).Include(a => a.Haircut);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,6 +36,7 @@ namespace Barbershop.Controllers
 
             var appointment = await _context.Appointments
                 .Include(a => a.Barber)
+                .Include(a => a.Haircut)
                 .FirstOrDefaultAsync(m => m.AppointmentId == id);
             if (appointment == null)
             {
@@ -49,6 +50,7 @@ namespace Barbershop.Controllers
         public IActionResult Create()
         {
             ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "BarberId");
+            ViewData["HaircutId"] = new SelectList(_context.Haircut, "HaircutId", "HaircutId");
             return View();
         }
 
@@ -57,7 +59,7 @@ namespace Barbershop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentDateTime,BarberId,CustomerId")] Appointment appointment)
+        public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentDateTime,BarberId,HaircutId,CustomerId")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +68,7 @@ namespace Barbershop.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "BarberId", appointment.BarberId);
+            ViewData["HaircutId"] = new SelectList(_context.Haircut, "HaircutId", "HaircutId", appointment.HaircutId);
             return View(appointment);
         }
 
@@ -83,6 +86,7 @@ namespace Barbershop.Controllers
                 return NotFound();
             }
             ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "BarberId", appointment.BarberId);
+            ViewData["HaircutId"] = new SelectList(_context.Haircut, "HaircutId", "HaircutId", appointment.HaircutId);
             return View(appointment);
         }
 
@@ -91,7 +95,7 @@ namespace Barbershop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AppointmentDateTime,BarberId,CustomerId")] Appointment appointment)
+        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,AppointmentDateTime,BarberId,HaircutId,CustomerId")] Appointment appointment)
         {
             if (id != appointment.AppointmentId)
             {
@@ -119,6 +123,7 @@ namespace Barbershop.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "BarberId", appointment.BarberId);
+            ViewData["HaircutId"] = new SelectList(_context.Haircut, "HaircutId", "HaircutId", appointment.HaircutId);
             return View(appointment);
         }
 
@@ -132,6 +137,7 @@ namespace Barbershop.Controllers
 
             var appointment = await _context.Appointments
                 .Include(a => a.Barber)
+                .Include(a => a.Haircut)
                 .FirstOrDefaultAsync(m => m.AppointmentId == id);
             if (appointment == null)
             {
