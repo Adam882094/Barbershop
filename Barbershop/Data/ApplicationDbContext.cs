@@ -12,5 +12,6 @@ namespace Barbershop.Data
             : base(options)
         {
         }
+        public DbSet<Barbershop.Models.Haircut>? Haircut { get; set; }
     }
 }

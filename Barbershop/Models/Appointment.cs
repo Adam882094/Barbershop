@@ -10,9 +10,12 @@
 
         public int BarberId { get; set; }
 
+        public int HaircutId { get; set; }
+
         public string? CustomerId { get; set; }
 
         //Parent Ref
         public Barber? Barber { get; set; }
+        public Haircut? Haircut { get; set; }
     }
 }
