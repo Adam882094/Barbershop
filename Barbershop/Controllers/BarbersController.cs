@@ -22,9 +22,10 @@ namespace Barbershop.Controllers
         // GET: Barbers
         public async Task<IActionResult> Index()
         {
-              return _context.Barbers != null ? 
-                          View(await _context.Barbers.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Barbers'  is null.");
+            var orderedBarbers = await _context.Barbers
+                                             .OrderBy(b => b.BarberName)
+                                             .ToListAsync();
+            return View(orderedBarbers);
         }
 
         // GET: Barbers/Details/5
