@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Barbershop.Data;
 using Barbershop.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Barbershop.Controllers
 {
@@ -15,16 +16,20 @@ namespace Barbershop.Controllers
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AppointmentsController(ApplicationDbContext context)
+        public AppointmentsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Appointments
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Appointments.Include(a => a.Barber).Include(a => a.Haircut);
+            var user = await _userManager.GetUserAsync(User);
+            var userId = user.Id;
+            var applicationDbContext = _context.Appointments.Include(a => a.Barber).Include(a => a.Haircut).Where(a => a.CustomerId == userId);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -63,6 +68,9 @@ namespace Barbershop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AppointmentId,AppointmentDateTime,BarberId,HaircutId,CustomerId")] Appointment appointment)
         {
+            var user = await _userManager.GetUserAsync(User);
+            appointment.CustomerId = user.Id;
+
             if (ModelState.IsValid)
             {
                 _context.Add(appointment);
