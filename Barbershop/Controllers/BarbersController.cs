@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Barbershop.Controllers
 {
-    [Authorize]
+    //Adminstartor role only
+    [Authorize(Roles = "Administrator")]
     public class BarbersController : Controller
     {
         private readonly ApplicationDbContext _context;
