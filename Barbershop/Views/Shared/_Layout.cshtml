@@ -29,8 +29,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Haircuts" asp-action="Index">Haircut Options</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">Book an Appointment</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Create">Book an Appointment</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Appointments" asp-action="Index">My Appointments</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
