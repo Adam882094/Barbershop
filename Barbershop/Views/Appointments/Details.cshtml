@@ -23,16 +23,16 @@
             @Html.DisplayFor(model => model.CustomerId)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Barber)
+            @Html.DisplayNameFor(model => model.Barber.BarberName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Barber.BarberId)
+            @Html.DisplayFor(model => model.Barber.BarberName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Haircut)
+            @Html.DisplayNameFor(model => model.Haircut.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Haircut.HaircutId)
+            @Html.DisplayFor(model => model.Haircut.Name)
         </dd>
     </dl>
 </div>

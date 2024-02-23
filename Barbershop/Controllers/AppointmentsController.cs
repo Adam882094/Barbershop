@@ -56,8 +56,8 @@ namespace Barbershop.Controllers
         // GET: Appointments/Create
         public IActionResult Create()
         {
-            ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "BarberId");
-            ViewData["HaircutId"] = new SelectList(_context.Haircut, "HaircutId", "HaircutId");
+            ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "BarberName");
+            ViewData["HaircutId"] = new SelectList(_context.Haircut, "HaircutId", "Name");
             return View();
         }
 
@@ -95,8 +95,8 @@ namespace Barbershop.Controllers
             {
                 return NotFound();
             }
-            ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "BarberId", appointment.BarberId);
-            ViewData["HaircutId"] = new SelectList(_context.Haircut, "HaircutId", "HaircutId", appointment.HaircutId);
+            ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "BarberName", appointment.BarberId);
+            ViewData["HaircutId"] = new SelectList(_context.Haircut, "HaircutId", "Name", appointment.HaircutId);
             return View(appointment);
         }
 
