@@ -58,6 +58,7 @@ namespace Barbershop.Controllers
         {
             ViewData["BarberId"] = new SelectList(_context.Barbers, "BarberId", "BarberName");
             ViewData["HaircutId"] = new SelectList(_context.Haircut, "HaircutId", "Name");
+            ViewBag.BookedTimes = new List<DateTime>(); // Ensure this is always initialized
             return View();
         }
 
@@ -174,6 +175,32 @@ namespace Barbershop.Controllers
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAvailableTimes(DateTime date, int barberId)
+        {
+            // Logic to calculate the start and end times for the day selected
+            var startTime = date.Date.AddHours(9); // Assuming a 9 AM start
+            var endTime = date.Date.AddHours(17); // Assuming a 5 PM end
+
+            // Get all the times that are already booked for that barber on the selected date
+            var bookedTimes = await _context.Appointments
+                .Where(a => a.BarberId == barberId && a.AppointmentDateTime.Date == date.Date)
+                .Select(a => a.AppointmentDateTime)
+                .ToListAsync();
+
+            // Generate all possible timeslots for that day
+            var timeSlots = Enumerable.Range(0, (int)(endTime - startTime).TotalMinutes / 40)
+                .Select(i => startTime.AddMinutes(i * 40))
+                .ToList();
+
+            // Select the times that are not booked
+            var availableTimes = timeSlots
+                .Where(t => !bookedTimes.Contains(t))
+                .Select(t => new { value = t.ToString("o"), text = t.ToString("HH:mm") })
+                .ToList();
+
+            return Json(availableTimes);
         }
 
         private bool AppointmentExists(int id)

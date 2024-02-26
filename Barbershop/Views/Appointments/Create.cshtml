@@ -2,6 +2,15 @@
 
 @{
     ViewData["Title"] = "Create";
+    var bookedTimes = ViewBag.BookedTimes as List<DateTime>;
+    var startTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0); // 9 AM
+    var endTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 17, 0, 0); // 5 PM
+    var timeSlots = new List<DateTime>();
+
+    for (var time = startTime; time < endTime; time = time.AddMinutes(40))
+    {
+        timeSlots.Add(time);
+    }
 }
 
 <h1>Create</h1>
@@ -13,13 +22,24 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="AppointmentDateTime" class="control-label"></label>
-                <input asp-for="AppointmentDateTime" class="form-control" />
-                <span asp-validation-for="AppointmentDateTime" class="text-danger"></span>
+                <label for="appointmentDate">Date</label>
+                   <input type="date" id="appointmentDate" name="appointmentDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
             </div>
             <div class="form-group">
                 <label asp-for="BarberId" class="control-label"></label>
                 <select asp-for="BarberId" class ="form-control" asp-items="ViewBag.BarberId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppointmentDateTime" class="control-label"></label>
+                <select asp-for="AppointmentDateTime" class="form-control">
+                    @foreach (var timeSlot in timeSlots)
+                    {
+                        <option value="@timeSlot" disabled="@bookedTimes.Contains(timeSlot)">
+                            @timeSlot.ToString("t")
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="AppointmentDateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HaircutId" class="control-label"></label>
@@ -39,4 +59,35 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function() {
+            function fetchAvailableTimes() {
+                var selectedDate = $('#appointmentDate').val();
+                var barberId = $('#BarberId').val();
+                if (selectedDate && barberId) {
+                    $.ajax({
+                        url: '@Url.Action("GetAvailableTimes", "Appointments")',
+                        type: 'GET',
+                        data: { date: selectedDate, barberId: barberId },
+                        success: function(data) {
+                            var timesDropdown = $('#AppointmentDateTime');
+                            timesDropdown.empty();
+                            $.each(data, function(i, time) {
+                                timesDropdown.append($('<option></option>').val(time.value).text(time.text).prop('disabled', time.disabled));
+                            });
+                        },
+                        error: function() {
+                            alert('Error fetching times. Please try again.');
+                        }
+                    });
+                }
+            }
+
+            $('#appointmentDate, #BarberId').change(fetchAvailableTimes);
+
+            // Optional: Fetch times when the page loads if you have default values set
+            fetchAvailableTimes();
+        });
+    </script>
+
 }
