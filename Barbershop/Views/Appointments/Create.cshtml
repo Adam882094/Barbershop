@@ -26,11 +26,11 @@
                    <input type="date" id="appointmentDate" name="appointmentDate" class="form-control" min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
             </div>
             <div class="form-group">
-                <label asp-for="BarberId" class="control-label"></label>
+                <label asp-for="BarberId" class="control-label">Barber</label>
                 <select asp-for="BarberId" class ="form-control" asp-items="ViewBag.BarberId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="AppointmentDateTime" class="control-label"></label>
+                <label asp-for="AppointmentDateTime" class="control-label">Time</label>
                 <select asp-for="AppointmentDateTime" class="form-control">
                     @foreach (var timeSlot in timeSlots)
                     {
@@ -42,7 +42,7 @@
                 <span asp-validation-for="AppointmentDateTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="HaircutId" class="control-label"></label>
+                <label asp-for="HaircutId" class="control-label">Haircut</label>
                 <select asp-for="HaircutId" class ="form-control" asp-items="ViewBag.HaircutId"></select>
             </div>
 

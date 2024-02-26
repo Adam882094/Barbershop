@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>My Appointments</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,10 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AppointmentDateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerId)
+                Date
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Barber)
@@ -34,18 +31,20 @@
                 @Html.DisplayFor(modelItem => item.AppointmentDateTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Barber.BarberName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Haircut.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AppointmentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AppointmentId">Delete</a>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.AppointmentId">Details</a>
+                }
+
+                <a asp-action="Delete" asp-route-id="@item.AppointmentId"><input type="submit" value="Cancel" class="btn btn-danger" /></a>
+                    
             </td>
         </tr>
 }

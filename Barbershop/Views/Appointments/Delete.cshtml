@@ -4,33 +4,27 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1>Cancel</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to cancel this?</h3>
 <div>
     <h4>Appointment</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AppointmentDateTime)
+            Date
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.AppointmentDateTime)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomerId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomerId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Barber.BarberName)
+            Barber
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Barber.BarberName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Haircut.Name)
+            Haircut
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Haircut.Name)
@@ -39,7 +33,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="AppointmentId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Cancel" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
