@@ -59,6 +59,9 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         $(function() {
             function fetchAvailableTimes() {
@@ -85,9 +88,26 @@
 
             $('#appointmentDate, #BarberId').change(fetchAvailableTimes);
 
+            // Initialize Flatpickr
+            flatpickr("#appointmentDate", {
+                disable: [
+                    function(date) {
+                        // Disables Sundays (0) and Mondays (1)
+                        return (date.getDay() === 0 || date.getDay() === 1);
+                    }
+                ],
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                onChange: function(selectedDates, dateStr, instance) {
+                    // Trigger fetchAvailableTimes when a new date is selected
+                    fetchAvailableTimes();
+                }
+            });
+
             // Optional: Fetch times when the page loads if you have default values set
             fetchAvailableTimes();
         });
+   
     </script>
 
 }
