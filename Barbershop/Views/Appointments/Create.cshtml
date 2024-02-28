@@ -74,9 +74,16 @@
                         data: { date: selectedDate, barberId: barberId },
                         success: function(data) {
                             var timesDropdown = $('#AppointmentDateTime');
+                            var currentTime = new Date();
                             timesDropdown.empty();
                             $.each(data, function(i, time) {
-                                timesDropdown.append($('<option></option>').val(time.value).text(time.text).prop('disabled', time.disabled));
+                                var timeValue = new Date(time.value);
+                                // Check if the selected date is today
+                                var isSelectedDateToday = selectedDate === currentTime.toISOString().split('T')[0];
+                                // Disable times that have passed for today
+                                var isTimePast = timeValue < currentTime;
+                                var disabled = isSelectedDateToday && isTimePast;
+                                timesDropdown.append($('<option></option>').val(time.value).text(time.text).prop('disabled', disabled));
                             });
                         },
                         error: function() {

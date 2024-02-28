@@ -179,8 +179,10 @@ namespace Barbershop.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAvailableTimes(DateTime date, int barberId)
         {
-            // Logic to calculate the start and end times for the day selected
-            var startTime = date.Date.AddHours(9); // Assuming a 9 AM start
+            var today = DateTime.Today;
+            var now = DateTime.Now;
+            // If the selected date is today, set the start time to the current time, otherwise to the start of the workday.
+            var startTime = date.Date == today ? new DateTime(today.Year, today.Month, today.Day, now.Hour, now.Minute, 0).AddMinutes(40 - (now.Minute % 40)) : date.Date.AddHours(9);
             var endTime = date.Date.AddHours(17); // Assuming a 5 PM end
 
             // Get all the times that are already booked for that barber on the selected date
