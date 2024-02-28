@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Haircut)
             </th>
+            <th>Price
+
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,6 +38,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Haircut.Name)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => item.Haircut.Price)
             </td>
             <td>
                 @if (User.IsInRole("Administrator"))
