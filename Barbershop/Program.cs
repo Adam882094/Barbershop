@@ -14,6 +14,16 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Configure CORS to allow specific origins, methods, and headers
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowMyLocalOrigin", policyBuilder =>
+        policyBuilder.WithOrigins("https://localhost:7076") // Replace with the actual origin
+                     .AllowAnyMethod()
+                     .AllowAnyHeader());
+});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -22,11 +32,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseCors("AllowMyLocalOrigin"); // Apply CORS policy for development environment
 }
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
