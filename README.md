@@ -31,6 +31,7 @@
 <p>*If times are not updating locally go to Program.cs and update the URL in line 22 to your localhost URL</p>
 
 <h3>Check Database</h3>
+<p>Database Schema: https://docs.google.com/presentation/d/1C7Y6sHIp4wz9FluGsro9i0rrwexOIg3rO1TTJZCWy4E/edit?usp=sharing</p>
 <ol>
   <li>Open a copy of SQL Server Management Studio</li>
   <li>Change server name to 'sql9001.site4now.net'</li>
